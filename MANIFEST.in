@@ -1,0 +1,14 @@
+include LICENSE
+include AUTHORS
+include ChangeLog
+include requirements.txt
+include tendrl-notifier.service
+include version.py
+exclude .gitignore
+exclude .gitreview
+graft systemd
+graft config
+graft docs
+graft etc
+graft tendrl
+global-exclude *.pyc

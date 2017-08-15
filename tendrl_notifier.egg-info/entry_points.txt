@@ -1,0 +1,3 @@
+[console_scripts]
+tendrl-notifier = tendrl.notifier.manager:main
+
