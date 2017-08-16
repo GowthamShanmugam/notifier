@@ -1,7 +1,5 @@
 import pkgutil
 
-import tendrl.notifier.utils.central_store_util as central_store_util
-
 
 def list_modules_in_package_path(package_path, prefix):
     modules = []

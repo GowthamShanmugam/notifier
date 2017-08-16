@@ -6,8 +6,8 @@ import os
 import six
 from tendrl.notifier.objects.notification_media import NotificationMedia
 from tendrl.notifier.utils.util import list_modules_in_package_path
-from  tendrl.notifier.utils.central_store_util import get_alert_ids
-from  tendrl.notifier.utils.central_store_util import get_alerts
+from tendrl.notifier.utils.central_store_util import get_alerts
+from tendrl.notifier.utils.central_store_util import update_alert_delivery
 from tendrl.commons.event import Event
 from tendrl.commons.message import ExceptionMessage
 
@@ -109,16 +109,13 @@ class NotificationPluginManager(gevent.greenlet.Greenlet):
     def _run(self):
         while not self.complete.is_set():
             try:
+                alerts = get_alerts()
                 # gevent.sleep(30)
-                alert_ids = get_alert_ids()
-                alerts = get_alerts(alert_ids)
                 for alert in alerts:
                     if not eval(alert.delivery):
                         for plugin in NotificationPlugin.plugins:
-                            alert.tags = {"message": "testing notifier"}
                             plugin.dispatch_notification(alert)
-                            # Update delivery is True
-                            alert.delivery = True
+                        update_alert_delivery(alert)                             
                             
             except(
                 ValueError,
